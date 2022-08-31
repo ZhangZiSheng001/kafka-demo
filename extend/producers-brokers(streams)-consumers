@@ -1,0 +1,41 @@
+@startuml
+scale 1.0
+
+hide empty description
+skinparam backgroundColor LightYellow
+skinparam state {
+  BorderColor Gray
+  FontName Sanserif
+  FontStyle bold
+}
+
+state Producers #Peru {
+    Producer1 -[hidden]-> Producer2
+}
+state Brokers #lightgreen {
+    state topic1 #lightgray
+    state topic2 #lightgray
+    state topic3 #lightgray
+    topic1 -[hidden]-> topic2
+}
+
+state Consumers #lightblue {
+    Consumer1 -[hidden]-> Consumer2
+}
+state App {
+state Steams_API #orange {
+}
+}
+
+Producer1 -right-> topic1:event1
+topic1 -right-> Consumer1:event1
+
+Producer2 -right-> topic2:event2
+topic2 -[hidden]right-> topic3
+topic3 -right-> Consumer2:event2'
+
+topic2 -down-> Steams_API:event2
+Steams_API -up-> topic3:event2'
+
+right footer <font size="20" color="lightgray">ZhangZiSheng001</font>
+@enduml

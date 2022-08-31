@@ -1,0 +1,40 @@
+@startuml
+scale 1.0
+
+hide empty description
+skinparam backgroundColor LightYellow
+skinparam state {
+  BorderColor Gray
+  FontName Sanserif
+  FontStyle bold
+}
+
+state Producers #Peru {
+    Producer1 -[hidden]-> Producer2
+    Producer2 -[hidden]-> Producer3
+    Producer3 -[hidden]-> Producer4
+}
+state Brokers #lightgreen {
+    state topic1 #lightgray
+    state topic2 #lightgray
+    state topic3 #lightgray
+    state topic4 #lightgray
+    topic1 -[hidden]-> topic2
+    topic2 -[hidden]-> topic3
+    topic3 -[hidden]-> topic4
+}
+
+state Consumers #lightblue {
+    Consumer1 -[hidden]-> Consumer2
+}
+
+Producer1 -down-> topic1:event1
+Producer2 -right-> topic2:event2
+Producer3 -up-> topic3:event3
+Producer4 -up-> topic4:event4
+topic1 --> Consumer1:event1
+topic2 -right-> Consumer2:event2
+topic3 -right-> Consumer2:event3
+
+right footer <font size="20" color="lightgray">ZhangZiSheng001</font>
+@enduml

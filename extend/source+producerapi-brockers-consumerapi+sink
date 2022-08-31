@@ -1,0 +1,48 @@
+@startuml
+scale 1.0
+
+hide empty description
+skinparam backgroundColor LightYellow
+skinparam state {
+  BorderColor Gray
+  FontName Sanserif
+  FontStyle bold
+}
+
+state Producers #Peru {
+    state App1 {
+        state Producer_API1 #lightgray
+    }
+    state App2 {
+        state Producer_API2 #lightgray
+    }
+    state App3 {
+        state Producer_API3 #lightgray
+    }
+    App1 -[hidden]-> App2
+    App2 -[hidden]-> App3
+}
+state Brokers #lightgreen
+
+state Consumers #lightblue {
+    state App4 {
+        state Consumer_API1 #lightgray
+    }
+    state App5 {
+        state Consumer_API2 #lightgray
+    }
+    App4 -[hidden]-> App5
+}
+
+Producer_API2 -right-> Brokers:event2
+Brokers -right-> Consumer_API1:event1
+
+Producer_API1 -down-> Brokers:event1
+Producer_API3 -up-> Brokers:event3
+
+Brokers -down-> Consumer_API2:event2、event3
+
+
+
+right footer <font size="20" color="lightgray">ZhangZiSheng001</font>
+@enduml

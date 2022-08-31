@@ -1,0 +1,43 @@
+@startuml
+scale 1.0
+
+hide empty description
+skinparam backgroundColor LightYellow
+skinparam state {
+  BorderColor Gray
+  FontName Sanserif
+  FontStyle bold
+}
+
+state Producers #Peru {
+    state Source_File_Connector #lightgray
+    state Source_Database_Connector #lightgray
+    state Source_RabbitMQ_Connector #lightgray
+    Source_File -> Source_File_Connector
+    Source_Database -> Source_Database_Connector
+    Source_RabbitMQ -> Source_RabbitMQ_Connector
+    Source_File -[hidden]-> Source_Database
+    Source_Database -[hidden]-> Source_RabbitMQ
+}
+state Brokers #lightgreen
+
+state Consumers #lightblue {
+    state SINK_File_Connector #lightgray
+    state SINK_Database_Connector #lightgray
+    state SINK_RabbitMQ_Connector #lightgray
+    SINK_File_Connector -> SINK_File
+    SINK_Database_Connector -> SINK_Database
+    SINK_RabbitMQ_Connector -> SINK_RabbitMQ
+    SINK_File -[hidden]-> SINK_Database
+    SINK_Database -[hidden]-> SINK_RabbitMQ
+}
+
+Source_File_Connector -down-> Brokers:file event
+Source_Database_Connector -right-> Brokers:database event
+Source_RabbitMQ_Connector -up-> Brokers:mq event
+Brokers -down-> SINK_File_Connector:file event
+Brokers -right-> SINK_Database_Connector:database event
+Brokers -up-> SINK_RabbitMQ_Connector:mq event
+
+right footer <font size="20" color="lightgray">ZhangZiSheng001</font>
+@enduml

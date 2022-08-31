@@ -1,0 +1,31 @@
+@startuml
+scale 1.0
+
+hide empty description
+skinparam backgroundColor LightYellow
+skinparam state {
+  BorderColor Gray
+  FontName Sanserif
+  FontStyle bold
+}
+state "event sources" as source #Peru {
+    source1 -[hidden]-> source2
+    source2 -[hidden]-> source3
+}
+state "event brokers" as broker #lightgreen {
+}
+state "event sinks" as sink #lightblue {
+    sink1 -[hidden]-> sink2
+}
+
+source1 -down-> broker:event1
+source2 -right-> broker:event2
+source3 -up-> broker:event3
+broker -right-> sink1:event1
+broker -down-> sink2:event2、event3
+
+
+
+
+right footer <font size="20" color="lightgray">ZhangZiSheng001</font>
+@enduml
