@@ -1,0 +1,71 @@
+@startuml
+scale 1.0
+
+!theme plain
+skinparam defaultFontName 微软雅黑
+
+
+state "Producer client" as Producer1
+state fork1 <<choice>> 
+
+
+
+state topic  {
+    state Broker1 {
+        state "Partition1" as P1 #lightgray 
+        state "Partition2′" as P21 #lightyellow
+        state "Partition3′" as P31 #lightgreen
+        P1 -[hidden]-> P21
+        P21 -[hidden]-> P31
+    }
+    state Broker2 {
+        state "Partition2" as P2 #lightyellow
+        state "Partition1′" as P11 #lightgray 
+        state "Partition3′′" as P32 #lightgreen
+        P2 -[hidden]-> P11
+        P11 -[hidden]-> P32
+    }
+    state Broker3 {
+        state "Partition3" as P3 #lightgreen
+        state "Partition1′′" as P12 #lightgray 
+        state "Partition2′′" as P22 #lightyellow
+        P3 -[hidden]-> P12
+        P12 -[hidden]-> P22
+    }
+    P31 -[hidden]-> P2
+    P32 -[hidden]-> P3
+
+
+}
+
+
+state Consumers  {
+    state "Consumer client 1" as Consumer1
+    state C1
+    hide C1
+    state "Consumer client 2" as Consumer2
+    state C2
+    hide C2
+    state "Consumer client 3" as Consumer3
+
+    Consumer1 -[hidden]-> C1
+    C1 -[hidden]-> Consumer2
+    Consumer2 -[hidden]-> C2
+    C2 -[hidden]-> Consumer3
+
+}
+
+Producer1 -right-> fork1
+fork1 -right[hidden]-> P2
+P2 -right[hidden]-> Consumer2
+
+'fork1 -up-> P1
+
+'fork1 -down-> P3
+
+'P1 -down-> Consumer1
+'P3 -up-> Consumer3
+
+
+right footer <font size="20" color="lightgray">ZhangZiSheng001</font>
+@enduml
